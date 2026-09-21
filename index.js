@@ -1,32 +1,34 @@
 import fs from "node:fs/promises";
 import http from "node:http";
+import { importHtml } from "./importHtml.js";
+import { PORT, HTML_DIRECTORY } from "./config.js";
 
 // Listening for requests
-const PORT = 8080;
 const server = http.createServer();
 
-server.listen(PORT, "localhost", () => {
+server.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
 
 // Handling incoming requests
 const getHtmlPage = async ({ req }) => {
-  const HTML_DIRECTORY = "./views";
   const requestUrl = req.url === "/" ? "/index" : req.url;
-  const relativeUrl = HTML_DIRECTORY + requestUrl + ".html";
+  const baseUrl = import.meta.dirname + HTML_DIRECTORY;
+  const absoluteUrl = baseUrl + requestUrl + ".html";
 
   try {
-    return await fs.readFile(relativeUrl);
+    return await importHtml(await fs.readFile(absoluteUrl));
   } catch (error) {
-    error.page = await fs.readFile(HTML_DIRECTORY + "/404.html");
+    error.page = await importHtml(await fs.readFile(baseUrl + "/404.html"));
     throw error;
   }
 };
 
 const renderHtml = async (req, res) => {
+  res.setHeader("content-type", "text/html; charset=uft-8");
+
   let page;
   try {
-    res.setHeader("content-type", "text/html; charset=uft-8");
     page = await getHtmlPage({ req });
     res.statusCode = 200;
   } catch (error) {
