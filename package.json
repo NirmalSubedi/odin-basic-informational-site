@@ -1,0 +1,24 @@
+{
+  "name": "odin-basic-informational-site",
+  "version": "1.0.0",
+  "description": "Serving static web pages with node.js. Supports importing html file in html.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NirmalSubedi/odin-basic-informational-site.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/NirmalSubedi/odin-basic-informational-site/issues"
+  },
+  "homepage": "https://github.com/NirmalSubedi/odin-basic-informational-site#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
